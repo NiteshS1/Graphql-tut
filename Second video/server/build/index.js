@@ -22,15 +22,27 @@ function init() {
         app.use(express_1.default.json());
         // Create Graphql Server
         const gqlServer = new server_1.ApolloServer({
-            typeDefs: '',
-            resolvers: {}
+            typeDefs: `
+            type Query {
+                hello: String
+                say(name: String): String
+            }
+        `,
+            resolvers: {
+                Query: {
+                    hello: () => `Hey there, I am a graphql server`,
+                    say: (_, { name }) => `Hey ${name}, How are you?`,
+                }
+            }
         });
         // Start the gql server
         yield gqlServer.start();
         app.get('/', (req, res) => {
             res.json({ message: "Server is up and running" });
         });
-        app.use("/graphql", (0, express4_1.expressMiddleware)(gqlServer));
+        // const middleware = expressMiddleware(gqlServer);
+        // app.use('/graphql', middleware);
+        app.use('/graphql', (0, express4_1.expressMiddleware)(gqlServer));
         app.listen(PORT, () => console.log(`Server started at PORT:${PORT}`));
     });
 }

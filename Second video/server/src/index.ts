@@ -20,7 +20,7 @@ async function init(){
         resolvers: {
             Query: {
                 hello: () => `Hey there, I am a graphql server`,
-                say: (_, { name }: { name: string }) => `Hey $name, How are you?`,
+                say: (_, { name }: { name: string }) => `Hey ${name}, How are you?`,
             }
         }
     });
