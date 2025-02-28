@@ -32,9 +32,6 @@ async function init(){
         res.json({ message: "Server is up and running" });
     });
 
-    // const middleware = expressMiddleware(gqlServer);
-    // app.use('/graphql', middleware);
-
     app.use('/graphql', expressMiddleware(gqlServer));
 
     app.listen(PORT, () => console.log(`Server started at PORT:${PORT}`));
