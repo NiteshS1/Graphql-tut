@@ -23,6 +23,9 @@ class UserService {
             .digest('hex');
         return hashedPassword;
     }
+    static getUserById(id) {
+        return db_1.prismaClient.user.findUnique({ where: { id } });
+    }
     static createUser(payload) {
         const { firstName, lastName, email, password } = payload;
         const salt = (0, node_crypto_1.randomBytes)(32).toString("hex");
@@ -54,6 +57,9 @@ class UserService {
             const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, JWT_SECRET);
             return token;
         });
+    }
+    static decodeJWTToken(token) {
+        return jsonwebtoken_1.default.verify(token, JWT_SECRET);
     }
 }
 exports.default = UserService;
